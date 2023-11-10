@@ -6,6 +6,7 @@ const AppError = require("./utils/AppError");
 const express = require("express");
 const uploadConfig = require("../src/config/upload");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 
 //Quando não informado qual o arquivo expecífico a ser importado de dentro de uma pasta, ele importa o arquivo que contém o nome "index"
@@ -14,7 +15,14 @@ const routes = require("./routes");
 migrationsRun();
 
 const app = express();
-app.use(cors());
+
+app.use(cookieParser());
+
+app.use(cors({
+    origin: ["http://localhost:5173", "http:127.0.0.1:5173", "https://rocket-notes-olive.vercel.app/"],
+    credentials: true
+}));
+
 app.use(express.json());
 
 app.use(routes); 
